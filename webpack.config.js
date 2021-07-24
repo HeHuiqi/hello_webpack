@@ -2,17 +2,31 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+//默认生成目录,如果不存在会自动创建盖目录
+const dist_dir = path.join(__dirname, 'dist');
+//自定义生成目录
+// const dist_dir = path.join(__dirname, 'public');
+
 
 const config = {
     entry: './src/index.js',
     output: {
-        path: path.join(__dirname, 'public'), //指定打包好的文件，输出到哪个目录中去
+        path: dist_dir, //指定打包好的文件，输出到哪个目录中去
         filename: 'bundle.js' //这是指定 输出的文件的名称
     },
     module: {
         rules: [{
             test: /\.css$/,
             use: [MiniCssExtractPlugin.loader, "css-loader"],
+        }, {
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
+            }
         }],
     },
 
@@ -34,7 +48,7 @@ const config = {
     mode: 'development',
     devServer: {
         //服务器的根目录和上面输出目录保持一致
-        contentBase: path.join(__dirname, "public"),
+        contentBase: dist_dir,
         compress: false,
         host: '0.0.0.0',
         port: 9000,
