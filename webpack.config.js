@@ -12,7 +12,7 @@ const config = {
     entry: './src/index.js',
     output: {
         path: dist_dir, //指定打包好的文件，输出到哪个目录中去
-        filename: 'bundle.js' //这是指定 输出的文件的名称
+        filename: 'bundle.js', //这是指定 输出的文件的名称
     },
     module: {
         rules: [{
@@ -40,6 +40,7 @@ const config = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html',
+            inject: 'body', // true|body|head|false，四种值，默认为true,true和body相同,是将js注入到body结束标签前,head将打包的js文件放在head结束前,false是不注入，这时得要手工在html中加js
         })
     ],
 
